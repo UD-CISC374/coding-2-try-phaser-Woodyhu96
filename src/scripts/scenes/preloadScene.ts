@@ -5,33 +5,34 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background","assets/background.jpg");
-    this.load.spritesheet("ship1","assets/spritesheets/ship1.png",{
-      frameWidth:64,
-      frameHeight:64
+    let k = this.load.spritesheet("ship1","assets/spritesheets/ship1.png",{
+      frameWidth:16,
+      frameHeight:16
     });
+
     this.load.spritesheet("ship2","assets/spritesheets/ship2.png",{
-      frameWidth:64,
-      frameHeight:64
+      frameWidth:32,
+      frameHeight:16
     });
     this.load.spritesheet("ship3","assets/spritesheets/ship3.png",{
-      frameWidth:64,
-      frameHeight:64
+      frameWidth:32,
+      frameHeight:32
     });
     this.load.spritesheet("explosion","assets/spritesheets/explosion.png",{
-      frameWidth:64,
-      frameHeight:64
+      frameWidth:16,
+      frameHeight:16
     });
     this.load.spritesheet("power-up","assets/spritesheets/power-up.png",{
-      frameWidth:64,
-      frameHeight:64
+      frameWidth:16,
+      frameHeight:16
     });
     this.load.spritesheet("player", "assets/spritesheets/player.png",{
-      frameWidth: 64,
-      frameHeight: 96
+      frameWidth: 16,
+      frameHeight: 24
     });
     this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
-      frameWidth: 64,
-      frameHeight: 64
+      frameWidth: 16,
+      frameHeight: 16
     });
   }
 
@@ -48,6 +49,7 @@ export default class PreloadScene extends Phaser.Scene {
       frameRate:20,
       repeat:-1
     });
+    
     this.anims.create({
       key: "ship2_anim",
       frames: this.anims.generateFrameNumbers("ship2", { 

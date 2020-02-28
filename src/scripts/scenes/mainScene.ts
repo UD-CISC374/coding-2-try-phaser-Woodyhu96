@@ -3,7 +3,7 @@ import { GameObjects, Input } from 'phaser';
 
 export default class MainScene extends Phaser.Scene {
   background: any;
-  ship1:any;
+  ship1:Phaser.GameObjects.Sprite;
   ship2:any;
   ship3:any;
   powerUps: any;
@@ -16,7 +16,6 @@ export default class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: 'MainScene' });
   }
-  
   
   create() {
     var gameSettings = {
@@ -32,9 +31,9 @@ export default class MainScene extends Phaser.Scene {
     this.ship1.setScale(4);
     this.ship2.setScale(4);
     this.ship3.setScale(4);
-    // this.ship1.play("ship1_anim");
-    // this.ship2.play("ship2_anim");
-    // this.ship3.play("ship3_anim");
+    this.ship1.play("ship1_anim");
+    this.ship2.play("ship2_anim");
+    this.ship3.play("ship3_anim");
     this.ship1.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
