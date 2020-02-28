@@ -3,9 +3,13 @@ import MainScene from './scenes/mainScene';
 import PreloadScene from './scenes/preloadScene';
 import GameConfig = Phaser.Types.Core.GameConfig;
 
-const DEFAULT_WIDTH = 1280;
-const DEFAULT_HEIGHT = 968;
-
+const DEFAULT_WIDTH = 1180;
+const DEFAULT_HEIGHT = 800;
+var gameSettings = {
+    playerSpeed: 200,
+    maxPowerups :2,
+    powerUpVel: 50,
+}
 const config: GameConfig = {
     backgroundColor: '#ffffff',
     scale: {
