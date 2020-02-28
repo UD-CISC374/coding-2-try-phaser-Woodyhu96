@@ -1,55 +1,128 @@
-import ExampleObject from '../objects/exampleObject';
+import { GameObjects, Input } from 'phaser';
+
 
 export default class MainScene extends Phaser.Scene {
-  private exampleObject: ExampleObject;
-  supreme: Phaser.GameObjects.Image;
-  adidas: Phaser.GameObjects.Image;
-  nike: Phaser.GameObjects.Image;
-  stockx: Phaser.GameObjects.Image;
+  background: Phaser.GameObjects.Image;
+  ship1:any;
+  ship2:any;
+  ship3:any;
+  powerUps: any;
+  DEFAULT_WIDTH = 1280;
+  DEFAULT_HEIGHT = 968;
   constructor() {
     super({ key: 'MainScene' });
   }
-
+  
   create() {
-    var random1 = Phaser.Math.Between(50, 1200);
-    var random2 = Phaser.Math.Between(50, 1200);
-    var random3 = Phaser.Math.Between(50, 1200);
-    var random4 = Phaser.Math.Between(50, 1200);
-    
-    this.add.image(600,400,"background");
-    this.supreme = this.add.image(random1, -300, "supreme");
-    this.supreme.setScale(0.5);
-    this.adidas = this.add.image(random2, -100, "adidas");
-    this.adidas.setScale(0.05);
-    this.nike = this.add.image(random3, 200, "nike");
-    this.nike.setScale(0.2);
-    this.stockx = this.add.image (random4, -500, "stockx");
-    this.stockx.setScale(0.5);
+    this.add.text(20,20, "Game is running", {font: "15px Arial", fill:"red"});
+    this.background = this.add.image(600,400,"background");
+    this.ship1 = this.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship");
+    this.ship2 = this.add.sprite(this.DEFAULT_WIDTH/2 , this.DEFAULT_HEIGHT/2 ,"ship2");
+    this.ship3 = this.add.sprite(this.DEFAULT_WIDTH/2 +150, this.DEFAULT_HEIGHT/2 ,"ship3");
+    this.ship1.setScale(4);
+    this.ship2.setScale(4);
+    this.ship3.setScale(4);
 
-    this.add.text(20,20, "Playing game", {font: "25px Arial", fill:"yellow"});
-    ///this.exampleObject = new ExampleObject(this, 0, 0);
-  }
-  moveicon(icon,speed,rotate){
-    icon.y += speed;
-    if(rotate === true){
-      icon.angle += 2;
-    }
-    if(icon.y > 1100){
-      this.resetIconPos(icon);
-    }
-  }
-  resetIconPos(icon){
-    icon.y = -50;
-    var randomx = Phaser.Math.Between(50, 1200);
-    icon.x = randomx;
-  }
-  respawn(num){
+    this.anims.create({
+      key: "ship1_anim",
+      frames: this.anims.generateFrameNumbers("ship", { 
+        start: 0, end: 1}),
+      frameRate:20,
+      repeat:-1
+    });
+    this.anims.create({
+      key: "ship2_anim",
+      frames: this.anims.generateFrameNumbers("ship2", { 
+        start: 0, end: 1}),
+      frameRate:20,
+      repeat:-1
+    });
+    this.anims.create({
+      key: "ship3_anim",
+      frames: this.anims.generateFrameNumbers("ship3", { 
+        start: 0, end: 1}),
+      frameRate:20,
+      repeat:-1
+    });
+    this.anims.create({
+      key: "explode",
+      frames: this.anims.generateFrameNumbers("explosion", { 
+        start: 0, end: 4}),
+      frameRate:20,
+      repeat:0,
+      hideOnComplete: true
+    });
+    this.anims.create({
+      key: "red",
+      frames: this.anims.generateFrameNumbers("power-up", { 
+        start: 0, end: 1}),
+      frameRate:20,
+      repeat:-1
+    });
+    this.anims.create({
+      key: "gray",
+      frames: this.anims.generateFrameNumbers("power-up", { 
+        start: 2, end: 3}),
+      frameRate:20,
+      repeat:-1
+    });
     
+    // this.ship1.play("ship1_anim");
+    // this.ship2.play("ship2_anim");
+    // this.ship3.play("ship3_anim");
+    this.ship1.setInteractive();
+    this.ship2.setInteractive();
+    this.ship3.setInteractive();
+
+    this.input.on('gameobjectdown',this.destroyShip,this);
+    
+    
+    this.powerUps = this.physics.add.group();
+    var maxObjects = 4;
+    for(var i = 0; i<= maxObjects; i++){
+      var powerUp = this.physics.add.sprite(64,64, "power-up");
+      this.powerUps.add(powerUp);
+      powerUp.setRandomPosition(0,0,this.DEFAULT_WIDTH,this.DEFAULT_HEIGHT);
+      
+      if(Math.random() > 0.5){
+        //powerUp.play("red");
+      }else {
+        //powerUp.play("grey");
+      }
+      powerUp.setVelocity(100,100);
+      powerUp.setCollideWorldBounds(true);
+      powerUp.setBounce(1);
+    }
+  }
+  moveShip(ship,speed){
+    ship.y += speed;
+    if(ship.y > 1100){
+      this.resetPos(ship);
+    }
+  }
+  resetPos(ship){
+    ship.y = -50;
+    var randomx = Phaser.Math.Between(50, 1200);
+    ship.x = randomx;
+  }
+  destroyShip(pointer,GameObject){
+    GameObject.setTexture("explosion");
+    GameObject.play("explode");
   }
   update() {
-      this.moveicon(this.nike, 1,false);
-      this.moveicon(this.supreme, 1,false);
-      this.moveicon(this.stockx, 1,true);
-      this.moveicon(this.adidas, 1,false);
+    this.moveShip(this.ship1, 1);
+    this.moveShip(this.ship2, 2);
+    this.moveShip(this.ship3, 3);
+      //this.movePlayerManager();
   }
+
+  // movePlayerManager(){
+  //   this.cursor = this.input.keyboard.createCursorKeys();
+  //   if(this.cursor.left?.isDown){
+  //     this.player.setVelocityX(-200);
+  //   }
+  //   else if(this.cursor.right?.isDown){
+  //     this.player.setVelocityX(200);
+  //   }
+  // }
 }
