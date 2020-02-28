@@ -10,14 +10,22 @@ export default class MainScene extends Phaser.Scene {
   player: any;
   cursorKeys: any;
   spacebar: any;
+  projectiles: any;
   DEFAULT_WIDTH = 1280;
   DEFAULT_HEIGHT = 800;
   constructor() {
     super({ key: 'MainScene' });
   }
   
+  
   create() {
-    
+    var gameSettings = {
+      playerSpeed: 200,
+      maxPowerups :2,
+      powerUpVel: 50,
+  }
+
+
     this.background = this.add.tileSprite(600,400,1280,800,"background");
     this.ship1 = this.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship");
     this.ship2 = this.add.sprite(this.DEFAULT_WIDTH/2 , this.DEFAULT_HEIGHT/2 ,"ship2");
@@ -40,8 +48,8 @@ export default class MainScene extends Phaser.Scene {
       this.physics.world.setBoundsCollision();
    
     this.powerUps = this.physics.add.group();
-    var maxObjects = 4;
-    for(var i = 0; i<= maxObjects; i++){
+
+    for(var i = 0; i<= gameSettings.maxPowerups; i++){
       var powerUp = this.physics.add.sprite(64,64, "power-up");
       this.powerUps.add(powerUp);
       powerUp.setRandomPosition(0,0,this.DEFAULT_WIDTH,this.DEFAULT_HEIGHT);
@@ -51,7 +59,7 @@ export default class MainScene extends Phaser.Scene {
       }else {
         //powerUp.play("grey");
       }
-      powerUp.setVelocity(100,100);
+      powerUp.setVelocity(gameSettings.powerUpVel,gameSettings.powerUpVel);
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(1);
     }
@@ -65,6 +73,8 @@ export default class MainScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+    this.projectiles = this.add.group();
+
   }
 
   update() {
@@ -75,8 +85,15 @@ export default class MainScene extends Phaser.Scene {
     this.background.tilePositionY -= 0.5; 
     this.movePlayerManager();
     if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
-      console.log("Fire");
+      this.shootBeam();
     }
+    for(var i = 0; i < this.projectiles.getChildren().length; i++){
+      var beam = this.projectiles.getChildren()[i];
+      beam.update();
+    }  
+  }
+  shootBeam(){
+    var beam = new beam(this);
   }
   movePlayerManager(){
     this.player.setVelocity(0);

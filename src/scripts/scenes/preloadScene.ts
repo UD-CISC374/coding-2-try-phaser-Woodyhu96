@@ -28,7 +28,11 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.spritesheet("player", "assets/spritesheets/player.png",{
       frameWidth: 64,
       frameHeight: 96
-    })
+    });
+    this.load.spritesheet("beam", "assets/spritesheets/beam.png",{
+      frameWidth: 64,
+      frameHeight: 64
+    });
   }
 
   create() {
@@ -86,7 +90,14 @@ export default class PreloadScene extends Phaser.Scene {
         start:0, end: 1}),
         frameRate: 20,
         repeat: -1
-    })
+    });
+    this.anims.create({
+      key:"beam_anim",
+      frames: this.anims.generateFrameNumbers("beam", {
+        start:0, end: 1}),
+      frameRate: 20,
+      repeat: -1
+    });
 
   }
 }

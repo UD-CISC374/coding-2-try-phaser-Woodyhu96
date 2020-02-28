@@ -5,11 +5,7 @@ import GameConfig = Phaser.Types.Core.GameConfig;
 
 const DEFAULT_WIDTH = 1180;
 const DEFAULT_HEIGHT = 800;
-var gameSettings = {
-    playerSpeed: 200,
-    maxPowerups :2,
-    powerUpVel: 50,
-}
+
 const config: GameConfig = {
     backgroundColor: '#ffffff',
     scale: {
@@ -32,4 +28,3 @@ window.addEventListener('load', () => {
     window['game'] = new Phaser.Game(config);
 });
 
-//
