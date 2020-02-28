@@ -5,7 +5,7 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background","assets/background.jpg");
-    this.load.spritesheet("ship","assets/spritesheets/ship.png",{
+    this.load.spritesheet("ship1","assets/spritesheets/ship1.png",{
       frameWidth:64,
       frameHeight:64
     });
@@ -43,7 +43,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.scene.start('MainScene');
     this.anims.create({
       key: "ship1_anim",
-      frames: this.anims.generateFrameNumbers("ship", { 
+      frames: this.anims.generateFrameNumbers("ship1", { 
         start: 0, end: 1}),
       frameRate:20,
       repeat:-1

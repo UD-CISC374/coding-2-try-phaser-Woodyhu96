@@ -25,9 +25,8 @@ export default class MainScene extends Phaser.Scene {
       powerUpVel: 50,
   }
 
-
     this.background = this.add.tileSprite(600,400,1280,800,"background");
-    this.ship1 = this.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship");
+    this.ship1 = this.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship1");
     this.ship2 = this.add.sprite(this.DEFAULT_WIDTH/2 , this.DEFAULT_HEIGHT/2 ,"ship2");
     this.ship3 = this.add.sprite(this.DEFAULT_WIDTH/2 +150, this.DEFAULT_HEIGHT/2 ,"ship3");
     this.ship1.setScale(4);
