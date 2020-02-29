@@ -183,7 +183,9 @@ export default class MainScene extends Phaser.Scene {
   
   pickPowerUp(Player, powerUp){
     powerUp.disableBody(true, true);
-    this.score += 30;
+    this.score +=30;
+    var scoreFormated = this.zeroPad(this.score,6);
+    this.scoreLabel.text = "SCORE " + scoreFormated;
     this.pickupSound.play();
   }
   
@@ -201,6 +203,8 @@ export default class MainScene extends Phaser.Scene {
       loop:false
     })
     this.score -= 15;
+    var scoreFormated = this.zeroPad(this.score,6);
+    this.scoreLabel.text = "SCORE " + scoreFormated;
     this.resetPlayer();
   } 
   hitEnemy(projectiles, enemy){
@@ -224,6 +228,5 @@ export default class MainScene extends Phaser.Scene {
     var y = this.DEFAULT_HEIGHT+64;
     this.player.enableBody(true,x,y,true,true);
     this.player.alpha = 1;
-
   }
 }
