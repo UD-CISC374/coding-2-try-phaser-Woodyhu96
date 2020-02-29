@@ -53,9 +53,9 @@ export default class MainScene extends Phaser.Scene {
       powerUp.setRandomPosition(0,0,this.DEFAULT_WIDTH,this.DEFAULT_HEIGHT);
       
       if(Math.random() > 0.5){
-        //powerUp.play("red");
+        powerUp.play("red");
       }else {
-        //powerUp.play("grey");
+        powerUp.play("grey");
       }
       powerUp.setVelocity(gameSettings.powerUpVel,gameSettings.powerUpVel);
       powerUp.setCollideWorldBounds(true);
@@ -64,7 +64,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(this.DEFAULT_WIDTH/2 -8,
       this.DEFAULT_HEIGHT - 64, "player");
-      //this.player.play("thrust");
+      this.player.play("thrust");
       this.player.setScale(4);
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.player.setCollideWorldBounds(true);
