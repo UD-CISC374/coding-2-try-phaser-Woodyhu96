@@ -1,16 +1,17 @@
 import { GameObjects, Input } from 'phaser';
-
+import Beam from './Beam';
 
 export default class MainScene extends Phaser.Scene {
-  background: any;
-  ship1:Phaser.GameObjects.Sprite;
-  ship2:any;
-  ship3:any;
+  background: Phaser.GameObjects.TileSprite;
+  ship1:Phaser.Physics.Arcade.Sprite;
+  ship2:Phaser.Physics.Arcade.Sprite;
+  ship3:Phaser.Physics.Arcade.Sprite;
   powerUps: any;
-  player: any;
+  player: Phaser.Physics.Arcade.Sprite;
   cursorKeys: any;
   spacebar: any;
-  projectiles: any;
+  projectiles: Phaser.Physics.Arcade.Group;
+  beam: Phaser.Physics.Arcade.Sprite
   DEFAULT_WIDTH = 1280;
   DEFAULT_HEIGHT = 800;
   constructor() {
@@ -25,9 +26,9 @@ export default class MainScene extends Phaser.Scene {
   }
 
     this.background = this.add.tileSprite(600,400,1280,800,"background");
-    this.ship1 = this.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship1");
-    this.ship2 = this.add.sprite(this.DEFAULT_WIDTH/2 , this.DEFAULT_HEIGHT/2 ,"ship2");
-    this.ship3 = this.add.sprite(this.DEFAULT_WIDTH/2 +150, this.DEFAULT_HEIGHT/2 ,"ship3");
+    this.ship1 = this.physics.add.sprite(this.DEFAULT_WIDTH/2 -150, this.DEFAULT_HEIGHT/2 ,"ship1");
+    this.ship2 = this.physics.add.sprite(this.DEFAULT_WIDTH/2 , this.DEFAULT_HEIGHT/2 ,"ship2");
+    this.ship3 = this.physics.add.sprite(this.DEFAULT_WIDTH/2 +150, this.DEFAULT_HEIGHT/2 ,"ship3");
     this.ship1.setScale(4);
     this.ship2.setScale(4);
     this.ship3.setScale(4);
@@ -71,7 +72,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    this.projectiles = this.add.group();
+    this.projectiles = this.physics.add.group();
 
   }
 
@@ -91,7 +92,8 @@ export default class MainScene extends Phaser.Scene {
     }  
   }
   shootBeam(){
-    var beam = new beam(this);
+    var beam = new Beam(this); 
+    //var beam = this.physics.add.sprite(this.player.x, this.player.y, "beam");
   }
   movePlayerManager(){
     this.player.setVelocity(0);
