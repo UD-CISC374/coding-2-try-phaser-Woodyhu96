@@ -203,8 +203,13 @@ export default class MainScene extends Phaser.Scene {
       loop:false
     })
     this.score -= 15;
+    if(this.score < 0){
+      this.score = 0;
+      var scoreFormated = this.zeroPad(this.score,6);
+      this.scoreLabel.text = "SCORE " + scoreFormated;}
+    else{
     var scoreFormated = this.zeroPad(this.score,6);
-    this.scoreLabel.text = "SCORE " + scoreFormated;
+    this.scoreLabel.text = "SCORE " + scoreFormated;}
     this.resetPlayer();
   } 
   hitEnemy(projectiles, enemy){
