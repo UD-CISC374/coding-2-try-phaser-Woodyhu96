@@ -3,4 +3,6 @@ background: https://www.google.com/search?q=space+background+jpg&tbm=isch&ved=2a
 ships model and animation from github: https://github.com/ansimuz/getting-started-with-phaser/blob/master/spritesheets.zip
 Ships and power-up from Luis Zuno video:https://www.youtube.com/watch?v=qs5xmT6Upsc&t=27s
 assets download: https://ansimuz.itch.io/part-8-example
+font style: https://www.youtube.com/redirect?redir_token=z9gwEzPTuDCTAYOBT6MDYOjfAzV8MTU4MzAzODYyNUAxNTgyOTUyMjI1&event=video_description&v=a17P2A4Bgko&q=https%3A%2F%2Fansimuz.itch.io%2Fpart-10-getting-started-with-phaser
+sound from: https://ansimuz.itch.io/phaser-tutorial-excercise-sound
 *At least a URL, but also be sure to include any extra information that the artist/author requests you include.*

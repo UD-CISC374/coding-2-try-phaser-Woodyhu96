@@ -1,6 +1,7 @@
 import { GameObjects, Input } from 'phaser';
 import Beam from './Beam';
-
+import Explosion from './Explosion';
+//import Explosion from './Explosion';
 export default class MainScene extends Phaser.Scene {
   background: Phaser.GameObjects.TileSprite;
   ship1:Phaser.Physics.Arcade.Sprite;
@@ -12,9 +13,15 @@ export default class MainScene extends Phaser.Scene {
   spacebar: any;
   enemies: Phaser.Physics.Arcade.Group;
   projectiles: Phaser.Physics.Arcade.Group;
-  beam: Phaser.Physics.Arcade.Sprite
+  beam: Phaser.Physics.Arcade.Sprite;
+  scoreLabel;
+  score: number;
   DEFAULT_WIDTH = 1280;
   DEFAULT_HEIGHT = 800;
+  beamSound;
+  explosionSound;
+  pickupSound;
+  music;
   constructor() {
     super({ key: 'MainScene' });
   }
@@ -76,14 +83,45 @@ export default class MainScene extends Phaser.Scene {
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.projectiles = this.physics.add.group();
-
     this.physics.add.collider(this.projectiles, this.powerUps, 
       function(projectiles, powerUp){
         projectiles.destroy();
     });
+
+    let graphics = this.add.graphics();
+    graphics.fillStyle(0x000000, 1);
+    graphics.beginPath();
+    graphics.moveTo(0, 0);
+    graphics.lineTo(this.scale.width, 0);
+    graphics.lineTo(this.scale.width, 20);
+    graphics.lineTo(0, 20);
+    graphics.lineTo(0, 0);
+    graphics.closePath();
+    graphics.fillPath();
+    this.score = 0;
+    let scoreFormated = this.zeroPad(this.score, 6);
+    this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE " + scoreFormated, 16);
+    this.add.text(10, 20, "Playing game...", {font: "12px Arial", fill: "black"});
+
+
     this.physics.add.overlap(this.player, this.powerUps,this.pickPowerUp, undefined, this);
     this.physics.add.overlap(this.player, this.enemies,this.hurtPlayer, undefined, this);
     this.physics.add.overlap(this.projectiles, this.enemies,this.hitEnemy, undefined, this);
+    this.beamSound = this.sound.add("audio_beam");
+    this.explosionSound = this.sound.add("audio_explosion");
+    this.pickupSound = this.sound.add("audio_pickup");
+
+    this.music = this.sound.add("music");
+    var musicConfig ={
+      mute: false,
+      volume: 1,
+      rate:1,
+      detune:0,
+      seek:0,
+      loop: false,
+      delay:0
+    }
+    this.music.play(musicConfig);
   }
 
   update() {
@@ -100,10 +138,15 @@ export default class MainScene extends Phaser.Scene {
       var beam = this.projectiles.getChildren()[i];
       beam.update();
     }  
+    if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
+      if(this.player.active){
+        this.shootBeam();
+      }
+    }
   }
   shootBeam(){
     var beam = new Beam(this); 
-   
+    this.beamSound.play();
   }
   movePlayerManager(){
     this.player.setVelocity(0);
@@ -126,25 +169,61 @@ export default class MainScene extends Phaser.Scene {
       this.resetPos(ship);
     }
   }
+  
   resetPos(ship){
     ship.y = -50;
     var randomx = Phaser.Math.Between(50, 1200);
     ship.x = randomx;
   }
+  
   destroyShip(pointer,GameObject){
     GameObject.setTexture("explosion");
     GameObject.play("explode");
   }
+  
   pickPowerUp(Player, powerUp){
     powerUp.disableBody(true, true);
+    this.score += 30;
+    this.pickupSound.play();
   }
+  
   hurtPlayer(player,enemy){
     this.resetPos(enemy);
-    player.x = this.DEFAULT_WIDTH/2 -8;
-    player.y = this.DEFAULT_HEIGHT - 64;
+    if(this.player.alpha < 1){
+      return;
+    }
+    var explosion = new Explosion(this, player.x, player.y);
+    player.disableBody(true, true);
+    this.time.addEvent({
+      delay:1000,
+      callback: this.resetPlayer,
+      callbackScope: this,
+      loop:false
+    })
+    this.score -= 15;
+    this.resetPlayer();
   } 
   hitEnemy(projectiles, enemy){
+    var explosion = new Explosion(this,enemy.x, enemy.y);
     projectiles.destroy();
     this.resetPos(enemy);
+    this.score +=15;
+    var scoreFormated = this.zeroPad(this.score,6);
+    this.scoreLabel.text = "SCORE " + scoreFormated;
+    this.explosionSound.play();
+  }
+  zeroPad(number, size){
+    var stringNumber = String(number);
+    while(stringNumber.length < (size ||2)){
+      stringNumber = "0" + stringNumber;
+    }
+    return stringNumber;
+  }
+  resetPlayer(){
+    var x = this.DEFAULT_WIDTH/2 ;
+    var y = this.DEFAULT_HEIGHT+64;
+    this.player.enableBody(true,x,y,true,true);
+    this.player.alpha = 1;
+
   }
 }

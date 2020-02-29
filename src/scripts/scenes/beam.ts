@@ -15,7 +15,7 @@ export default class Beam extends Phaser.Physics.Arcade.Sprite{
     }
     update(){
         
-        if(this.x >750) {
+        if(this.y >750) {
             this.destroy();
         }
     }
