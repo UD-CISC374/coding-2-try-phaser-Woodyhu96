@@ -10,6 +10,7 @@ export default class MainScene extends Phaser.Scene {
   player: Phaser.Physics.Arcade.Sprite;
   cursorKeys: any;
   spacebar: any;
+  enemies: Phaser.Physics.Arcade.Group;
   projectiles: Phaser.Physics.Arcade.Group;
   beam: Phaser.Physics.Arcade.Sprite
   DEFAULT_WIDTH = 1280;
@@ -38,14 +39,17 @@ export default class MainScene extends Phaser.Scene {
     this.ship1.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
-
+    this.enemies = this.physics.add.group();
+    this.enemies.add(this.ship1);
+    this.enemies.add(this.ship2);
+    this.enemies.add(this.ship3);
+    
     this.input.on('gameobjectdown',this.destroyShip,this);
     this.add.text(20,20, "Game is running", {
       font: "15px Arial", 
       fill:"red"});
     
-      this.physics.world.setBoundsCollision();
-   
+    this.physics.world.setBoundsCollision();
     this.powerUps = this.physics.add.group();
 
     for(var i = 0; i<= gameSettings.maxPowerups; i++){
@@ -62,7 +66,6 @@ export default class MainScene extends Phaser.Scene {
       powerUp.setCollideWorldBounds(true);
       powerUp.setBounce(1);
     }
-
     this.player = this.physics.add.sprite(this.DEFAULT_WIDTH/2 -8,
       this.DEFAULT_HEIGHT - 64, "player");
       this.player.play("thrust");
@@ -74,6 +77,13 @@ export default class MainScene extends Phaser.Scene {
 
     this.projectiles = this.physics.add.group();
 
+    this.physics.add.collider(this.projectiles, this.powerUps, 
+      function(projectiles, powerUp){
+        projectiles.destroy();
+    });
+    this.physics.add.overlap(this.player, this.powerUps,this.pickPowerUp, undefined, this);
+    this.physics.add.overlap(this.player, this.enemies,this.hurtPlayer, undefined, this);
+    this.physics.add.overlap(this.projectiles, this.enemies,this.hitEnemy, undefined, this);
   }
 
   update() {
@@ -93,7 +103,7 @@ export default class MainScene extends Phaser.Scene {
   }
   shootBeam(){
     var beam = new Beam(this); 
-    //var beam = this.physics.add.sprite(this.player.x, this.player.y, "beam");
+   
   }
   movePlayerManager(){
     this.player.setVelocity(0);
@@ -124,5 +134,17 @@ export default class MainScene extends Phaser.Scene {
   destroyShip(pointer,GameObject){
     GameObject.setTexture("explosion");
     GameObject.play("explode");
+  }
+  pickPowerUp(Player, powerUp){
+    powerUp.disableBody(true, true);
+  }
+  hurtPlayer(player,enemy){
+    this.resetPos(enemy);
+    player.x = this.DEFAULT_WIDTH/2 -8;
+    player.y = this.DEFAULT_HEIGHT - 64;
   } 
+  hitEnemy(projectiles, enemy){
+    projectiles.destroy();
+    this.resetPos(enemy);
+  }
 }
