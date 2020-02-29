@@ -96,12 +96,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/spritesheets/ship3.png"
   },
   {
-    "revision": "77d5953432b5d8a8817020fa175568d5",
+    "revision": "56f27e69adcb6a18741a5fff5325ed1a",
     "url": "index.html"
   },
   {
-    "revision": "5fc72fd4fab8b7167adf",
-    "url": "main.aa70b9936c5289e3ed11.bundle.js"
+    "revision": "5259a6890a63519ee2ea",
+    "url": "main.5065c44559f86052880e.bundle.js"
   },
   {
     "revision": "fc8cefcfb102b35601f09d51ee2512ef",
