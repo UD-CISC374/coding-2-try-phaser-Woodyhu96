@@ -96,12 +96,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "assets/spritesheets/ship3.png"
   },
   {
-    "revision": "56f27e69adcb6a18741a5fff5325ed1a",
+    "revision": "6a2cd0789ede499d790813fbe303c91c",
+    "url": "favicon.ico"
+  },
+  {
+    "revision": "fe60fe64236b97acc9589d1ed06bd2bf",
+    "url": "icons/icons-192.png"
+  },
+  {
+    "revision": "6a2cd0789ede499d790813fbe303c91c",
+    "url": "icons/icons-512.png"
+  },
+  {
+    "revision": "b277e513870ebde347dbc4bd93fd8af7",
     "url": "index.html"
   },
   {
-    "revision": "5259a6890a63519ee2ea",
-    "url": "main.5065c44559f86052880e.bundle.js"
+    "revision": "d8cdd07b82f8385f0f95",
+    "url": "main.9a9c0936c3c380710aaf.bundle.js"
   },
   {
     "revision": "fc8cefcfb102b35601f09d51ee2512ef",

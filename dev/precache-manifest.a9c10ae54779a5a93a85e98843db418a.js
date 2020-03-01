@@ -96,12 +96,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coding-2-try-phaser-Woodyhu96/devassets/spritesheets/ship3.png"
   },
   {
+    "revision": "6a2cd0789ede499d790813fbe303c91c",
+    "url": "/coding-2-try-phaser-Woodyhu96/devfavicon.ico"
+  },
+  {
     "revision": "de4dbce529f4cbf03b91",
     "url": "/coding-2-try-phaser-Woodyhu96/devgen.main.fba370b6ac2ce3296446.bundle.js"
   },
   {
     "revision": "201b65bee9df6270f739",
     "url": "/coding-2-try-phaser-Woodyhu96/devgen.vendors.a047ee0740c7d21714d9.bundle.js"
+  },
+  {
+    "revision": "fe60fe64236b97acc9589d1ed06bd2bf",
+    "url": "/coding-2-try-phaser-Woodyhu96/devicons/icons-192.png"
+  },
+  {
+    "revision": "6a2cd0789ede499d790813fbe303c91c",
+    "url": "/coding-2-try-phaser-Woodyhu96/devicons/icons-512.png"
   },
   {
     "revision": "b3b33fdb31779e3cf45e18a76150611b",
